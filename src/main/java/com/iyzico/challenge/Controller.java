@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -36,8 +37,8 @@ public class Controller {
         }
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE)
-    public String post(@RequestBody CreateProductRequest createProductRequest) {
+    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE)
+    public String create(@RequestBody CreateProductRequest createProductRequest) {
 
         logger.info("New product created " + createProductRequest.getProductName(), createProductRequest.getProductDescription(),
                 createProductRequest.getRemainingStock(), createProductRequest.getProductPrice());
@@ -51,7 +52,7 @@ public class Controller {
         }
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public String remove(@PathVariable long id){
         logger.info("Deleted product with id " + id);
         try {
@@ -73,5 +74,10 @@ public class Controller {
         } catch (Exception e) {
             return e.getMessage();
         }
+    }
+
+    @RequestMapping(value = "/retrieveAllProducts", method = RequestMethod.GET)
+    public List<Product> retrieveAllProducts(){
+       return productService.retrieveAllProducts();
     }
 }

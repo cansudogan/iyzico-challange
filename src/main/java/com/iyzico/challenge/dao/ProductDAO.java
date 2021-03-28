@@ -9,5 +9,5 @@ public interface ProductDAO {
 
     Product getProductById(long id);
 
-    void delete(long id);
+    void remove(long id);
 }

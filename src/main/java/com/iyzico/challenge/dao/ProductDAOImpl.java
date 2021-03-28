@@ -27,7 +27,7 @@ public class ProductDAOImpl implements ProductDAO{
     }
 
     @Override
-    public void delete(long id) {
+    public void remove(long id) {
         Product product = getProductById(id);
 
         if (product != null)

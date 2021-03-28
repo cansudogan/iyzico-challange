@@ -1,4 +1,4 @@
-package com.iyzico.challenge;
+package com.iyzico.challenge.controller;
 
 import com.iyzico.challenge.entity.CreateProductRequest;
 import com.iyzico.challenge.entity.Product;
@@ -10,28 +10,26 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @EnableAutoConfiguration
-public class Controller {
+public class ProductController {
 
-    private static final Logger logger = LoggerFactory.getLogger(Controller.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     private ProductService productService;
 
-    public Controller(ProductService productService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String get(@PathVariable long id) {
+    public String retrieveProductById(@PathVariable long id) {
         logger.info("Getting product with id " + id);
         try {
-            Product product = productService.get(id);
-            return  product.toString();
+            Product product = productService.retrieveProductById(id);
+            return product.toString();
         } catch (Exception e) {
             return e.getMessage();
         }
@@ -46,19 +44,19 @@ public class Controller {
             Product product = new Product(createProductRequest.getProductName(), createProductRequest.getProductDescription(),
                     createProductRequest.getRemainingStock(), createProductRequest.getProductPrice());
             productService.create(product);
-            return "Added employee with id: " + product.getProductId();
+            return "Added product with id: " + product.getProductId();
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public String remove(@PathVariable long id){
+    public String removeProductById(@PathVariable long id) {
         logger.info("Deleted product with id " + id);
         try {
-            productService.remove(id);
-            return "id: " +id;
-        }catch (Exception e) {
+            productService.removeProductById(id);
+            return "id: " + id;
+        } catch (Exception e) {
             return e.getMessage();
         }
     }
@@ -69,15 +67,17 @@ public class Controller {
         logger.info("Product updated " + updateProductRequest.getProductName(), updateProductRequest.getProductDescription(),
                 updateProductRequest.getRemainingStock(), updateProductRequest.getProductPrice());
         try {
-                productService.update(updateProductRequest);
-                return "";
+            productService.update(updateProductRequest);
+            return "";
         } catch (Exception e) {
             return e.getMessage();
         }
     }
 
     @RequestMapping(value = "/retrieveAllProducts", method = RequestMethod.GET)
-    public List<Product> retrieveAllProducts(){
-       return productService.retrieveAllProducts();
+    public List<Product> retrieveAllProducts() {
+        return productService.retrieveAllProducts();
     }
+
+
 }

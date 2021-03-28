@@ -1,7 +1,5 @@
 package com.iyzico.challenge.entity;
 
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.math.BigDecimal;
 
 public class CreateProductRequest {

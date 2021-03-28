@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class ProductsInBasket implements Comparable<ProductsInBasket>{
+public class ProductsInBasket implements Comparable<ProductsInBasket> {
     private long id;
     private long basketId;
     private long productId;
@@ -67,7 +67,7 @@ public class ProductsInBasket implements Comparable<ProductsInBasket>{
     }
 
     @ManyToOne(targetEntity = Basket.class, fetch = FetchType.LAZY)
-    @JoinColumn(name="basket_id", referencedColumnName = "id")
+    @JoinColumn(name = "basket_id", referencedColumnName = "id")
     public Basket getBasket() {
         return basket;
     }
@@ -76,8 +76,9 @@ public class ProductsInBasket implements Comparable<ProductsInBasket>{
         this.basket = basket;
     }
 
+
     @ManyToOne(targetEntity = Product.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="product_id", referencedColumnName = "id")
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
     public Product getProduct() {
         return product;
     }

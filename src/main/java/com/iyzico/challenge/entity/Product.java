@@ -13,7 +13,7 @@ public class Product {
     private int remainingStock;
     private BigDecimal productPrice;
 
-    private User user;
+    //private User user;
 
     public Product(String productName) {
         this.productName = productName;
@@ -75,15 +75,6 @@ public class Product {
         this.productPrice = productPrice;
     }
 
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     @Override
     public String toString() {
@@ -93,7 +84,6 @@ public class Product {
                 ", productDescription='" + productDescription + '\'' +
                 ", remainingStock=" + remainingStock +
                 ", productPrice=" + productPrice +
-                ", user=" + user +
                 '}';
     }
 }

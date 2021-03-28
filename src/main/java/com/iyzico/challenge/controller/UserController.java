@@ -31,7 +31,7 @@ public class UserController {
                     , createUserRequest.getCity(), createUserRequest.getCountry(), createUserRequest.getEmail(), createUserRequest.getPhoneNumber(),
                     createUserRequest.getAddress(), createUserRequest.getZipCode(), LocalDateTime.now());
             userService.createUser(user);
-            return "Added user with id: " + user.getUserId();
+            return "Added user with id: " + user.getId();
         } catch (Exception e) {
             return e.getMessage();
         }

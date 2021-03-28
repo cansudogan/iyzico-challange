@@ -24,7 +24,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/retrieveProductById/{id}", method = RequestMethod.GET)
     public String retrieveProductById(@PathVariable long id) {
         logger.info("Getting product with id " + id);
         try {
@@ -44,7 +44,7 @@ public class ProductController {
             Product product = new Product(createProductRequest.getProductName(), createProductRequest.getProductDescription(),
                     createProductRequest.getRemainingStock(), createProductRequest.getProductPrice());
             productService.create(product);
-            return "Added product with id: " + product.getProductId();
+            return "Added product with id: " + product.getId();
         } catch (Exception e) {
             return e.getMessage();
         }

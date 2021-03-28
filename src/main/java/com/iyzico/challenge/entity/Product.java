@@ -7,13 +7,13 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "product")
 public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long productId;
+    private long id;
     private String productName;
     private String productDescription;
     private int remainingStock;
     private BigDecimal productPrice;
+
+    private User user;
 
     public Product(String productName) {
         this.productName = productName;
@@ -33,12 +33,14 @@ public class Product {
         this.productPrice = productPrice;
     }
 
-    public long getProductId() {
-        return productId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public long getId() {
+        return id;
     }
 
-    public void setProductId(long productId) {
-        this.productId = productId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getProductName() {
@@ -73,14 +75,25 @@ public class Product {
         this.productPrice = productPrice;
     }
 
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
-                "productId=" + productId +
+                "id=" + id +
                 ", productName='" + productName + '\'' +
                 ", productDescription='" + productDescription + '\'' +
                 ", remainingStock=" + remainingStock +
                 ", productPrice=" + productPrice +
+                ", user=" + user +
                 '}';
     }
 }

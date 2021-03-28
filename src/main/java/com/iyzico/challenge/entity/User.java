@@ -1,16 +1,11 @@
 package com.iyzico.challenge.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long userId;
+    private long id;
     private String name;
     private String surname;
     private String identityNo;
@@ -38,14 +33,18 @@ public class User {
         this.registrationDate = registrationDate;
     }
 
-    public long getUserId() {
-        return userId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    public long getId() {
+        return id;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setId(long id) {
+        this.id = id;
     }
 
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -54,6 +53,7 @@ public class User {
         this.name = name;
     }
 
+    @Column(name = "surname")
     public String getSurname() {
         return surname;
     }
@@ -62,6 +62,7 @@ public class User {
         this.surname = surname;
     }
 
+    @Column(name = "identityNo")
     public String getIdentityNo() {
         return identityNo;
     }
@@ -70,6 +71,7 @@ public class User {
         this.identityNo = identityNo;
     }
 
+    @Column(name = "city")
     public String getCity() {
         return city;
     }
@@ -78,6 +80,7 @@ public class User {
         this.city = city;
     }
 
+    @Column(name = "county")
     public String getCountry() {
         return country;
     }
@@ -86,6 +89,7 @@ public class User {
         this.country = country;
     }
 
+    @Column(name = "email")
     public String getEmail() {
         return email;
     }
@@ -94,6 +98,7 @@ public class User {
         this.email = email;
     }
 
+    @Column(name = "phoneNumber")
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -102,6 +107,7 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
+    @Column(name = "address")
     public String getAddress() {
         return address;
     }
@@ -110,6 +116,7 @@ public class User {
         this.address = address;
     }
 
+    @Column(name = "zipCode")
     public String getZipCode() {
         return zipCode;
     }
@@ -118,6 +125,7 @@ public class User {
         this.zipCode = zipCode;
     }
 
+    @Column(name = "registrationDate")
     public LocalDateTime getRegistrationDate() {
         return registrationDate;
     }
@@ -129,7 +137,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "userId=" + userId +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", identityNo='" + identityNo + '\'' +

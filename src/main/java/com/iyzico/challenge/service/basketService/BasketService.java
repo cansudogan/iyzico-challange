@@ -6,4 +6,6 @@ public interface BasketService {
     Basket retrieveBasketByUserId(long userId);
     Basket addProductToBasket(long userId ,long productId, int count);
     Basket removeProductFromBasket(long userId ,long productId, int count);
+
+    void complete(Basket basket);
 }

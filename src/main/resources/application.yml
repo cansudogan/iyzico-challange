@@ -6,6 +6,12 @@ spring:
     driverClassName: org.hsqldb.jdbcDriver
     username: root
     password: pass
+    hikari:
+      pool-name: payment-db-pool
   jpa:
     show-sql: true
     open-in-view: false
+iyzico:
+  base-url: https://sandbox-api.iyzipay.com
+  api-key: sandbox-wP19ADAs7HEf8fVEQpysbT78V8kC6ZGO
+  secret-key: sandbox-5Rk3intHwG3dB7ynWLKrzsTBHgNF4P0N

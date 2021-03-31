@@ -13,8 +13,6 @@ public class Product {
     private int remainingStock;
     private BigDecimal productPrice;
 
-    //private User user;
-
     public Product(String productName) {
         this.productName = productName;
     }

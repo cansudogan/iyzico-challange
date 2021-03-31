@@ -8,12 +8,16 @@ import java.util.Set;
 @Entity
 public class Basket {
     private long id;
-    private Status status;
-    private BigDecimal totalPrice;
     private long userId;
+    private Status status;
+    private BigDecimal total = null;
 
     private User user;
     private Set<ProductsInBasket> products = new HashSet<>();
+
+    public enum Status {
+        ACTIVE, APPLIED, COMPLETED
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +30,19 @@ public class Basket {
         this.id = id;
     }
 
+    @Basic
+    @Column(name = "user_id", insertable = false, updatable = false, nullable = false)
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    @Basic
+    @Column(name = "status", length = 16, nullable = false)
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
     public Status getStatus() {
         return status;
     }
@@ -36,17 +51,8 @@ public class Basket {
         this.status = status;
     }
 
-    @Column(name = "totalPrice")
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
     @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn (name = "user_id", referencedColumnName="id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     public User getUser() {
         return user;
     }
@@ -64,27 +70,18 @@ public class Basket {
         this.products = products;
     }
 
-    @Column(name = "user_id", insertable = false, updatable = false, nullable = false)
-    public long getUserId() {
-        return userId;
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public BigDecimal getTotal() {
+        if (total != null) {
+            return total;
+        }
+
+        return total = products.stream()
+                .map(ProductsInBasket::getSubtotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    @Override
-    public String toString() {
-        return "Basket{" +
-                "id=" + id +
-                ", status=" + status +
-                ", totalPrice=" + totalPrice +
-                ", userId=" + userId +
-                ", products=" + products +
-                '}';
-    }
-
-    public enum Status {
-        ACTIVE, APPLIED, COMPLETED
-    }
 }

@@ -1,5 +1,6 @@
 package com.iyzico.challenge.service.productService;
 
+import com.iyzico.challenge.entity.CreateProductRequest;
 import com.iyzico.challenge.entity.Product;
 import com.iyzico.challenge.entity.UpdateProductRequest;
 import com.iyzico.challenge.repository.ProductRepository;
@@ -21,14 +22,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void create(Product product) {
+    public Product create(CreateProductRequest createProductRequest) {
+        Product product = new Product(createProductRequest.getProductName(), createProductRequest.getProductDescription(),
+                createProductRequest.getRemainingStock(), createProductRequest.getProductPrice());
         productRepository.save(product);
+        return product;
     }
 
     @Override
     public Product retrieveProductById(Long id) {
-        Optional<Product> selectedProduct = productRepository.findById(id);
-        return selectedProduct.get();
+        Optional<Product> result = productRepository.findById(id);
+        if (!result.isPresent()) {
+            throw new RuntimeException(String.format("Product with id %s not found", id));
+        }
+        return result.get();
     }
 
     @Override
@@ -37,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void update(UpdateProductRequest updateProductRequest) {
+    public Product update(UpdateProductRequest updateProductRequest) {
         Product updatedProduct = retrieveProductById(updateProductRequest.getProductId());
 
         updatedProduct.setProductName(updateProductRequest.getProductName());
@@ -46,6 +53,7 @@ public class ProductServiceImpl implements ProductService {
         updatedProduct.setProductPrice(updateProductRequest.getProductPrice());
 
         productRepository.save(updatedProduct);
+        return updatedProduct;
     }
 
     @Override

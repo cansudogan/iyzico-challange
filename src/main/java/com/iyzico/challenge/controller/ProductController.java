@@ -24,54 +24,26 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @RequestMapping(value = "/retrieveProductById/{id}", method = RequestMethod.GET)
-    public String retrieveProductById(@PathVariable long id) {
-        logger.info("Getting product with id " + id);
-        try {
-            Product product = productService.retrieveProductById(id);
-            return product.toString();
-        } catch (Exception e) {
-            return e.getMessage();
-        }
+    @RequestMapping(value = "/retrieveProduct/{id}", method = RequestMethod.GET)
+    public Product retrieveProductById(@PathVariable long id) {
+        Product product = productService.retrieveProductById(id);
+        return product;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE)
-    public String create(@RequestBody CreateProductRequest createProductRequest) {
-
-        logger.info("New product created " + createProductRequest.getProductName(), createProductRequest.getProductDescription(),
-                createProductRequest.getRemainingStock(), createProductRequest.getProductPrice());
-        try {
-            Product product = new Product(createProductRequest.getProductName(), createProductRequest.getProductDescription(),
-                    createProductRequest.getRemainingStock(), createProductRequest.getProductPrice());
-            productService.create(product);
-            return "Added product with id: " + product.getId();
-        } catch (Exception e) {
-            return e.getMessage();
-        }
+    @RequestMapping(value = "/createProduct", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE)
+    public Product create(@RequestBody CreateProductRequest createProductRequest) {
+        return productService.create(createProductRequest);
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public String removeProductById(@PathVariable long id) {
-        logger.info("Deleted product with id " + id);
-        try {
-            productService.removeProductById(id);
-            return "id: " + id;
-        } catch (Exception e) {
-            return e.getMessage();
-        }
+    @RequestMapping(value = "/deleteProduct/{id}", method = RequestMethod.DELETE)
+    public void removeProductById(@PathVariable long id) {
+        productService.removeProductById(id);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST, consumes = MediaType.ALL_VALUE)
-    public String update(@RequestBody UpdateProductRequest updateProductRequest) {
+    public Product update(@RequestBody UpdateProductRequest updateProductRequest) {
+        return productService.update(updateProductRequest);
 
-        logger.info("Product updated " + updateProductRequest.getProductName(), updateProductRequest.getProductDescription(),
-                updateProductRequest.getRemainingStock(), updateProductRequest.getProductPrice());
-        try {
-            productService.update(updateProductRequest);
-            return "";
-        } catch (Exception e) {
-            return e.getMessage();
-        }
     }
 
     @RequestMapping(value = "/retrieveAllProducts", method = RequestMethod.GET)

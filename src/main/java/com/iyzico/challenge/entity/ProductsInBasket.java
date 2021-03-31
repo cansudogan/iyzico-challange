@@ -1,6 +1,7 @@
 package com.iyzico.challenge.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,11 +15,6 @@ public class ProductsInBasket implements Comparable<ProductsInBasket> {
     private Basket basket;
     private Product product;
 
-    @Override
-    public int compareTo(ProductsInBasket o) {
-        return Long.compare(productId, o.getBasketId());
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -30,6 +26,7 @@ public class ProductsInBasket implements Comparable<ProductsInBasket> {
         this.id = id;
     }
 
+    @Basic
     @Column(name = "basket_id", insertable = false, updatable = false, nullable = false)
     public long getBasketId() {
         return basketId;
@@ -39,6 +36,7 @@ public class ProductsInBasket implements Comparable<ProductsInBasket> {
         this.basketId = basketId;
     }
 
+    @Basic
     @Column(name = "product_id", insertable = false, updatable = false, nullable = false)
     public long getProductId() {
         return productId;
@@ -48,7 +46,8 @@ public class ProductsInBasket implements Comparable<ProductsInBasket> {
         this.productId = productId;
     }
 
-    @Column(name = "count")
+    @Basic
+    @Column(name = "count", nullable = false)
     public int getCount() {
         return count;
     }
@@ -57,7 +56,8 @@ public class ProductsInBasket implements Comparable<ProductsInBasket> {
         this.count = count;
     }
 
-    @Column(name = "createTime")
+    @Basic
+    @Column(name = "create_time", nullable = false)
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -76,7 +76,6 @@ public class ProductsInBasket implements Comparable<ProductsInBasket> {
         this.basket = basket;
     }
 
-
     @ManyToOne(targetEntity = Product.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     public Product getProduct() {
@@ -85,5 +84,15 @@ public class ProductsInBasket implements Comparable<ProductsInBasket> {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    @Transient
+    public BigDecimal getSubtotal() {
+        return getProduct().getProductPrice().multiply(new BigDecimal(count));
+    }
+
+    @Override
+    public int compareTo(ProductsInBasket o) {
+        return Long.compare(productId, o.getBasketId());
     }
 }

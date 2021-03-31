@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Optional;
+
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private BasketRepository basketRepository;
 
@@ -20,8 +21,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User retrieveUserById(long id) {
-       Optional<User> user = userRepository.findById(id);
-       return user.get();
+        Optional<User> user = userRepository.findById(id);
+        return user.get();
     }
 
     @Override
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService{
         Basket basket = new Basket();
         basket.setStatus(Basket.Status.ACTIVE);
         basket.setUser(user);
-        basket.setTotalPrice(BigDecimal.ZERO);
+        basket.setTotal(BigDecimal.ZERO);
         basketRepository.save(basket);
     }
 }

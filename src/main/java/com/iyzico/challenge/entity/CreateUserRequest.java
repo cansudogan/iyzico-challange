@@ -1,7 +1,5 @@
 package com.iyzico.challenge.entity;
 
-import java.time.LocalDateTime;
-
 public class CreateUserRequest {
     private String name;
     private String surname;
